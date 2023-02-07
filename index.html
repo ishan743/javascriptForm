@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGN UP/LOGIN FORM</title>
+    <style>
+        *{
+            text-transform: capitalize;
+            margin: 0;
+            padding: 0;
+        }
+        .main{
+            border:  2px solid black;
+            border-radius: 8px;
+            padding: 10px;
+            margin: 10px;
+            display: block;
+            position: absolute;
+            transform: translate(-50%,-50%);
+            left: 50%;
+            top: 50%;
+        }
+        .main h1{
+            text-decoration: underline;
+            margin: 20px 10px;
+        }
+        input{
+            text-align: center;
+            height: 30px;
+            width: 100%;
+            border: 0.12rem solid black;
+            border-radius: 8px;
+            margin-bottom: 5px;
+        }
+        input:focus{
+            outline:  none;
+        }
+        #inpmail{
+            text-transform: none;
+        }
+        button{
+            cursor: pointer;
+        }
+    </style>
+   
+</head>
+<body>
+    <div class="main">
+        <h1>Login/registration </h1>
+        <form action="" class="frm">
+            <input type="text" oninput="validateFname()" id="fname" placeholder="FirstName"><br>
+            <input type="text" placeholder="LastName" oninput="validateLname()" id="Lname"><br>
+            <input type="email" oninput="validatemail()" id="inpmail" placeholder="Email"><br>
+            <input type="date" oninput="validateage()" id="age"><br>
+            <input type="password" oninput="validatepass()" id="psw" placeholder="Enter Your Password"><br>
+            <input type="password" oninput="validatecpass()" id="cpsw" placeholder="Confirm Your Password"><br>
+            <button type="button" onclick="check()">Sign up/Registration</button>
+            
+        </form>
+    </div>
+    <script>
+        let isvalid=0;
+        function close(){
+            let x=document.getElementsByClassName('frm');
+            x.style.display='none';
+        }
+        function validateFname(){
+            let x=document.getElementById('fname');
+            if(x.value.length<25){
+                x.style.borderColor="green";
+                ++isvalid;
+            }
+            else{x.style.borderColor="red";--isvalid;}
+        }
+        function validateLname(){
+            let x=document.getElementById('Lname');
+            if(x.value.length<25){
+                x.style.borderColor="green";
+                ++isvalid;
+            }
+            else{x.style.borderColor="red";--isvalid;}
+        }
+        function validatemail(){
+            let x=document.getElementById('inpmail');
+            if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(x.value))
+            {
+                x.style.borderColor="green";
+                ++isvalid;
+            }
+            else{
+                // x.style.border="3px solid red"
+                x.style.borderColor="red";
+                --isvalid;
+            }
+        }
+        function calculate_age(dob) { 
+            var diff_ms = Date.now() - dob.getTime();
+            var age_dt = new Date(diff_ms); 
+        
+            return Math.abs(age_dt.getUTCFullYear() - 1970);
+        }
+        function validateage(){
+            let x=document.getElementById('age');
+            let age=calculate_age(new Date(x.value));
+            if(age>=18){
+                x.style.borderColor="green";
+                ++isvalid;
+            }
+            else{
+                x.style.borderColor="red";
+                --isvalid;
+            }
+        }
+        function validatepass(){
+            let myInput=document.getElementById('psw');
+            var a=0;
+            // myInput.onkeyup = function() {
+  // Validate lowercase letters
+  let lowerCaseLetters = /[a-z]/g;
+  if(myInput.value.match(lowerCaseLetters)) {
+    // letter.classList.remove("invalid");
+    // letter.classList.add("valid");
+    ++a;
+  } else {
+    --a;
+    // letter.classList.remove("valid");
+    // letter.classList.add("invalid");
+}
+
+  // Validate capital letters
+  let upperCaseLetters = /[A-Z]/g;
+  if(myInput.value.match(upperCaseLetters)) {
+    // capital.classList.remove("invalid");
+    // capital.classList.add("valid");
+    ++a;
+
+  } else {
+    --a;
+   
+  }
+
+  // Validate numbers
+  let numbers = /[0-9]/g;
+  if(myInput.value.match(numbers)) {
+    ++a;
+   
+  } else {
+    --a;
+  }
+
+  // Validate length
+  if(myInput.value.length >= 8) {
+    ++a;
+  } else {
+    --a;
+  
+  }
+//   console.log(a);
+if(a==4){
+    myInput.style.borderColor="green";
+    ++isvalid;
+}
+else{myInput.style.borderColor="red";--isvalid;}
+        // }
+        }
+        function validatecpass()
+        {
+            let x=document.getElementById('cpsw');
+            let y=document.getElementById('psw');
+            if(x.value===y.value){
+                x.style.borderColor="green";
+                ++isvalid;
+            }
+            else{
+                x.style.borderColor="red";
+                --isvalid;
+            }
+        }
+        function check(){
+            let x=document.getElementById('inpmail');
+            if(localStorage.getItem("key")){
+                alert('email already exist');
+            }
+            else{
+                localStorage.setItem("key",x.value);
+                // if(isvalid==7){
+                //     alert('valid');
+                // }
+                // else{
+                //     alert('invalid');
+                // }
+
+                alert('email saved'+x.value);
+            }
+        }
+    </script>
+</body>
+</html>
